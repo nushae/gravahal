@@ -73,6 +73,7 @@ public class Game implements Serializable {
 		if (state == PLAYING) {
 			state = ENDED;
 			this.winner = winner;
+			Server.broadcast(new ServerMessage(ServerMessage.GAMEOVER, gameID));
 		}
 	}
 
@@ -112,7 +113,7 @@ public class Game implements Serializable {
 			}
 		}
 
-		// test for extra turn:
+		// capture:
 		int lastPit = (stones + pit) % ((FULLSOWING?2:1)*pits+1);
 		if (lastPit < pits) {
 			if (players[player].getContentsAtPosition(lastPit)==1) {
@@ -124,6 +125,7 @@ public class Game implements Serializable {
 			}
 		}
 
+		// game end:
 		if (players[player].areAllPitsEmpty() || players[1-player].areAllPitsEmpty()) {
 			players[player].sweep();
 			players[1-player].sweep();
@@ -136,7 +138,7 @@ public class Game implements Serializable {
 				finish(-1); // draw
 			}
 		} else { // we don't want to switch active player if the game ended
-			if (lastPit < pits) {
+			if (lastPit < pits) { // nor if the last stone landed in Grava Hal
 				activePlayer = 1-activePlayer;
 			}
 		}

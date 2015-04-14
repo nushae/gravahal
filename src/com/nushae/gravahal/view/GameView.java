@@ -151,7 +151,7 @@ public class GameView extends VerticalLayout implements View, GameEventListener 
 
 	private void doConcede() {
 		concedeButton.setEnabled(false);
-		Server.concedeGame(myID, myGame.getID());
+		myGame.finish(myGame.getStarterID() == myID ? 1 : 0);
 	}
 
 	private void goToLobby() {

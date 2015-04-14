@@ -33,7 +33,7 @@ public class Server implements Serializable {
 		// end all games for this user:
 		for (Game g: games.values()) {
 			if (g.getState() == Game.PLAYING && (g.getStarterID() == UID || g.getSecondPlayerID() == UID)) {
-				concedeGame(UID, g.getID());
+				g.finish(g.getStarterID() == UID ? 1 : 0);
 			} else if (g.getState() == Game.OPEN && g.getStarterID() == UID) {
 				cancelGame(UID, g.getID());
 			}
@@ -80,15 +80,6 @@ public class Server implements Serializable {
 		if (game.getStarterID() == uid && game.getState() == Game.OPEN) {
 			games.remove(gameID);
 			broadcast(new ServerMessage(ServerMessage.REMOVEGAME, game.getID()));
-		}
-	}
-
-	public static synchronized void concedeGame(long uid, long gameID) {
-		Game game = games.get(gameID);
-		if (game.getState() == Game.PLAYING && (game.getStarterID() == uid || game.getSecondPlayerID() == uid)) {
-			int winner = (game.getStarterID() == uid ? 1 : 0);
-			games.get(gameID).finish(winner);
-			broadcast(new ServerMessage(ServerMessage.GAMEOVER, game.getID()));
 		}
 	}
 
