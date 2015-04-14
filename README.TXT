@@ -5,11 +5,12 @@ Unfortunately, it turns out that this is not conductive to 'carefree cloning' of
 Follow the following steps:
 
 0. Use eclipse
-1. Make sure the vaadin plugin is installed in eclipse
+1. Make sure the Vaadin plugin is installed in eclipse
 2. Clone this project into your workspace
 3. In eclipse, choose new java project, give the project the same name as the new dir step 2 yielded.
-4. Instead of finish, choose next so you can configure the dynamic web and vaadin facets manually
-5. finish; now edit project properties and add ivy to the deploy assembly.
+4. Instead of finish, choose next. Under libraries add IvyDE manually
+5. finish; now edit project properties, under project facets (convert to facet form) and check Dynamic Web Module and Vaadin plugin
+6. apply; under Deployment Assembly add (Java Build Path Entries) Ivy.
 
 Whew.
 
